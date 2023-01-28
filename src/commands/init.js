@@ -5,9 +5,10 @@ const init = async (directory) => {
   const WSPackage = require(`${directory}/package.json`);
   global.WS = directory;
   global.WSPKG = WSPackage;
+  global.CONFIG_FILE = 'packsize.config.json';
 
   const pkgsInfo = await listPackages(directory);
-  writeSizeFile(WS, pkgsInfo);
+  writeSizeFile({ location: `${WS}/${CONFIG_FILE}`, content: pkgsInfo });
 
   console.info('initialised config!');
 };

@@ -2,6 +2,7 @@ const { getSizeOfPackageFile } = require('./size');
 const { doExec } = require('./exec');
 const packlist = require('npm-packlist');
 const Arborist = require('@npmcli/arborist');
+const hash = require('object-hash');
 
 const parsePackageList = async (json, opts = {}) => {
   // add workspace name in package data
@@ -19,7 +20,12 @@ const parsePackageList = async (json, opts = {}) => {
     p.size = s;
     p.workspace = ws;
 
-    return p;
+    return {
+      workspace: ws,
+      package: p.name,
+      version: p.version,
+      artifacts: s,
+    };
   });
 
   const d = await Promise.all(parsedData);
@@ -33,7 +39,8 @@ const listPackages = async () => {
     const { error, stdout, stderr } = await doExec(cmd);
     const packData = await parsePackageList(JSON.parse(stdout));
     const r = {
-      data: packData,
+      hash: hash(packData),
+      packages: packData,
     };
     return r;
   } catch (e) {

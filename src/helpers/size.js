@@ -52,7 +52,6 @@ const getSizeOfPackageFile = async (pkgDir, pkgfiles) => {
       i.size += s.size;
       i.gzip += s.sizeGzip;
       i.files[f] = {
-        path: fpath,
         size: byteSize(s.size).toString(),
         gzip: byteSize(s.sizeGzip).toString(),
       };

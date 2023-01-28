@@ -28,11 +28,15 @@
   },
   "dependencies": {
     "@npmcli/arborist": "^6.2.0",
+    "byte-size": "^8.1.0",
+    "colors": "^1.4.0",
+    "deep-object-diff": "^1.1.9",
+    "diff": "^5.1.0",
     "dotenv": "^16.0.3",
     "gzip-size": "^6.0.0",
     "jsonfile": "^6.1.0",
     "meow": "^9.0.0",
     "npm-packlist": "^7.0.4",
-    "byte-size": "^8.1.0"
+    "object-hash": "^3.0.0"
   }
 }

@@ -1,16 +1,14 @@
 const fs = require('fs');
 const jsonfile = require('jsonfile');
 
-const writeSizeFile = (location, content) => {
-  const file = location + '/packsize.config.json';
-
+const writeSizeFile = ({ location, content }) => {
   try {
     jsonfile.writeFileSync(
-      file,
+      location,
       content,
       { spaces: 2 },
       {
-        flag: fs.existsSync(file) ? 'a' : undefined,
+        flag: fs.existsSync(location) ? 'a' : undefined,
       }
     );
   } catch (e) {
@@ -18,6 +16,15 @@ const writeSizeFile = (location, content) => {
   }
 };
 
+const readSizeFile = ({ location }) => {
+  try {
+    return jsonfile.readFileSync(location);
+  } catch (e) {
+    console.error('readSizeFile failed', e);
+  }
+};
+
 module.exports = {
   writeSizeFile,
+  readSizeFile,
 };
