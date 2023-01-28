@@ -1,0 +1,30 @@
+{
+  "name": "packsize",
+  "version": "1.0.0",
+  "description": "package size control on a monorepo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --watch 'src/**/*' --exec 'node' ./src/index",
+    "start": "node ./src/index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rake7h/packsize.git"
+  },
+  "author": "rakesh <rake7h@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rake7h/packsize/issues"
+  },
+  "homepage": "https://github.com/rake7h/packsize#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "@npmcli/arborist": "^6.2.0",
+    "dotenv": "^16.0.3",
+    "gzip-size": "^6.0.0",
+    "npm-packlist": "^7.0.4"
+  }
+}
