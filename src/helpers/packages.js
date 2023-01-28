@@ -18,7 +18,7 @@ const parsePackageList = async (json, opts = {}) => {
     const s = await getSizeOfPackageFile(pkgDir, pkgfiles);
     p.size = s;
     p.workspace = ws;
-    // p.file = pkgfiles;
+
     return p;
   });
 

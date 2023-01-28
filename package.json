@@ -1,6 +1,6 @@
 {
   "name": "packsize",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "package size control on a monorepo",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,13 @@
     "dev": "nodemon --watch 'src/**/*' --exec 'node' ./src/index",
     "start": "node ./src/index"
   },
+  "bin": {
+    "packsize": "./bin.js"
+  },
+  "files": [
+    "src",
+    "bin.js"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rake7h/packsize.git"
@@ -25,6 +32,8 @@
     "@npmcli/arborist": "^6.2.0",
     "dotenv": "^16.0.3",
     "gzip-size": "^6.0.0",
+    "jsonfile": "^6.1.0",
+    "meow": "^9.0.0",
     "npm-packlist": "^7.0.4"
   }
 }

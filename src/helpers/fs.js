@@ -1,15 +1,21 @@
-const { writeFile } = require('fs');
+const fs = require('fs');
+const jsonfile = require('jsonfile');
 
 const writeSizeFile = (location, content) => {
-  const path = location + '/packsize.config.json';
+  const file = location + '/packsize.config.json';
 
-  writeFile(path, JSON.stringify(content, null, 2), (error) => {
-    if (error) {
-      console.log('An error has occurred ', error);
-      return;
-    }
-    console.log('config written successfully to file');
-  });
+  try {
+    jsonfile.writeFileSync(
+      file,
+      content,
+      { spaces: 2 },
+      {
+        flag: fs.existsSync(file) ? 'a' : undefined,
+      }
+    );
+  } catch (e) {
+    console.error('writeSizeFile failed', e);
+  }
 };
 
 module.exports = {

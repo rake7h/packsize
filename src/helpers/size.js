@@ -38,20 +38,26 @@ async function getFileSizes({ filePath }) {
 }
 
 const getSizeOfPackageFile = async (pkgDir, pkgfiles) => {
-  const size = {
+  const i = {
     size: 0,
     gzip: 0,
+    files: {},
   };
 
   await Promise.all(
     pkgfiles.map(async (f) => {
       const fpath = pkgDir + '/' + f;
       const s = await getFileSizes({ filePath: fpath });
-      size.size += s.size;
-      size.gzip += s.sizeGzip;
+      i.size += s.size;
+      i.gzip += s.sizeGzip;
+      i.files[f] = {
+        path: fpath,
+        size: s.size,
+        gzip: s.sizeGzip,
+      };
     })
   );
-  return size;
+  return i;
 };
 
 module.exports = { getSizeOfPackageFile };
