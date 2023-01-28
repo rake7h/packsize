@@ -1,5 +1,6 @@
 const fs = require('fs');
 const gzipSize = require('gzip-size');
+const byteSize = require('byte-size');
 
 async function getFileSizes({ filePath }) {
   const result = {
@@ -52,12 +53,17 @@ const getSizeOfPackageFile = async (pkgDir, pkgfiles) => {
       i.gzip += s.sizeGzip;
       i.files[f] = {
         path: fpath,
-        size: s.size,
-        gzip: s.sizeGzip,
+        size: byteSize(s.size).toString(),
+        gzip: byteSize(s.sizeGzip).toString(),
       };
     })
   );
-  return i;
+
+  return {
+    ...i,
+    size: byteSize(i.size).toString(),
+    gzip: byteSize(i.gzip).toString(),
+  };
 };
 
 module.exports = { getSizeOfPackageFile };

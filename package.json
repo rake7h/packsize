@@ -4,9 +4,7 @@
   "description": "package size control on a monorepo",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --watch 'src/**/*' --exec 'node' ./src/index",
-    "start": "node ./src/index"
+    "dev": "node ./src/_dev.js"
   },
   "bin": {
     "packsize": "./bin.js"
@@ -34,6 +32,7 @@
     "gzip-size": "^6.0.0",
     "jsonfile": "^6.1.0",
     "meow": "^9.0.0",
-    "npm-packlist": "^7.0.4"
+    "npm-packlist": "^7.0.4",
+    "byte-size": "^8.1.0"
   }
 }
