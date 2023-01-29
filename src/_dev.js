@@ -1,3 +1,5 @@
+/** for local testing purpose only */
+
 require('dotenv').config();
 const { init } = require('./commands/init.js');
 const { diff } = require('./commands/diff.js');

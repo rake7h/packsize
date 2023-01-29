@@ -10,7 +10,7 @@ const init = async (directory) => {
   const pkgsInfo = await listPackages(directory);
   writeSizeFile({ location: `${WS}/${CONFIG_FILE}`, content: pkgsInfo });
 
-  console.info('initialised config!');
+  console.info('packsize config initialised at root!');
 };
 
 module.exports = { init };

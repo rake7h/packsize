@@ -2,7 +2,6 @@
   "name": "packsize",
   "version": "0.1.0",
   "description": "package size control on a monorepo",
-  "main": "index.js",
   "scripts": {
     "dev": "node ./src/_dev.js"
   },
@@ -23,9 +22,6 @@
     "url": "https://github.com/rake7h/packsize/issues"
   },
   "homepage": "https://github.com/rake7h/packsize#readme",
-  "devDependencies": {
-    "nodemon": "^2.0.20"
-  },
   "dependencies": {
     "@npmcli/arborist": "^6.2.0",
     "byte-size": "^8.1.0",

@@ -4,7 +4,7 @@ const { detailedDiff: diffCheck } = require('deep-object-diff');
 
 const diff = async (directory) => {
   const { listPackages } = require('../helpers/packages');
-  const { readSizeFile, writeSizeFile } = require('../helpers/fs');
+  const { readSizeFile } = require('../helpers/fs');
 
   const WSPackage = require(`${directory}/package.json`);
   global.WS = directory;
