@@ -1,6 +1,6 @@
 {
   "name": "packsize",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "description": "package size control on a monorepo",
   "scripts": {
     "dev": "node ./src/_dev.js"
@@ -32,7 +32,7 @@
     "gzip-size": "^6.0.0",
     "jsonfile": "^6.1.0",
     "meow": "^9.0.0",
-    "npm-packlist": "^7.0.4",
+    "npm-packlist": "^5.1.3",
     "object-hash": "^3.0.0"
   }
 }

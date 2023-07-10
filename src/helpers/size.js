@@ -6,17 +6,17 @@ async function getFileSizes({ filePath }) {
   const result = {
     path: filePath,
     size: undefined,
-    sizeGzip: undefined,
+    sizeGzip: undefined
   };
 
   const fileStream = fs.createReadStream(filePath);
   const sizes = [];
 
   sizes.push(
-    new Promise((resolve) => {
+    new Promise(resolve => {
       let totalSize = 0;
       fileStream
-        .on('data', (chunk) => {
+        .on('data', chunk => {
           totalSize += chunk.length;
         })
         .on('end', () => {
@@ -27,8 +27,8 @@ async function getFileSizes({ filePath }) {
   );
 
   sizes.push(
-    new Promise((resolve) => {
-      fileStream.pipe(gzipSize.stream()).on('gzip-size', (sizeGzip) => {
+    new Promise(resolve => {
+      fileStream.pipe(gzipSize.stream()).on('gzip-size', sizeGzip => {
         result.sizeGzip = sizeGzip;
         resolve(sizeGzip);
       });
@@ -38,31 +38,30 @@ async function getFileSizes({ filePath }) {
   return result;
 }
 
-const getSizeOfPackageFile = async (pkgDir, pkgfiles) => {
+const getArtifacts = async (pkgDir, pkgfiles) => {
   const i = {
     size: 0,
     gzip: 0,
-    files: {},
+    files: {}
   };
-
   await Promise.all(
-    pkgfiles.map(async (f) => {
+    pkgfiles.map(async f => {
       const fpath = pkgDir + '/' + f;
       const s = await getFileSizes({ filePath: fpath });
       i.size += s.size;
       i.gzip += s.sizeGzip;
       i.files[f] = {
         size: byteSize(s.size).toString(),
-        gzip: byteSize(s.sizeGzip).toString(),
+        gzip: byteSize(s.sizeGzip).toString()
       };
     })
   );
 
   return {
-    ...i,
+    files: [i.files].sort((a, b) => a[0] - b[0]),
     size: byteSize(i.size).toString(),
-    gzip: byteSize(i.gzip).toString(),
+    gzip: byteSize(i.gzip).toString()
   };
 };
 
-module.exports = { getSizeOfPackageFile };
+module.exports = { getArtifacts };
