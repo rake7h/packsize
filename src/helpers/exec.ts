@@ -1,37 +1,36 @@
-// https://stackabuse.com/executing-shell-commands-with-node-js
-
-const { exec } = require('child_process')
-const util = require('util')
+import { exec } from 'child_process';
+import { promisify } from 'util';
 
 const doExec = async (cmdString, path) => {
-  const execSync = util.promisify(exec)
+  const execSync = promisify(exec);
 
   try {
+    console.log(global.WS)
     const { error, stdout, stderr } = await execSync(cmdString, {
       cwd: path || global.WS
-    })
+    });
 
     const result = {
       error,
       stdout,
       stderr
-    }
+    };
 
     if (error) {
-      console.log(`error: ${error.message}`)
+      console.log(`error: ${error.message}`);
     }
     if (stderr) {
-      console.log(`stderr: ${stderr}`)
+      console.log(`stderr: ${stderr}`);
     }
     if (stdout) {
       // console.log(`stdout: ${stdout}`);
     }
-    return result
+    return result;
   } catch (e) {
     return {
       error: e
-    }
+    };
   }
-}
+};
 
-module.exports = { doExec }
+export { doExec };
