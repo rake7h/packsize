@@ -1,52 +1,52 @@
-const { getSizeOfPackageFile } = require('./size');
-const { doExec } = require('./exec');
-const packlist = require('npm-packlist');
-const Arborist = require('@npmcli/arborist');
-const hash = require('object-hash');
+const { getSizeOfPackageFile } = require('./size')
+const { doExec } = require('./exec')
+const packlist = require('npm-packlist')
+const Arborist = require('@npmcli/arborist')
+const hash = require('object-hash')
 
 const parsePackageList = async (json, opts = {}) => {
   // add workspace name in package data
   const parsedData = json.map(async (p) => {
-    const pkgDir = p.location;
-    const pr = pkgDir.split(global.WS)[1].split('/');
-    pr[pr.length - 1] = undefined;
-    const ws = pr.join('');
+    const pkgDir = p.location
+    const pr = pkgDir.split(global.WS)[1].split('/')
+    pr[pr.length - 1] = undefined
+    const ws = pr.join('')
 
-    const arborist = new Arborist({ path: pkgDir });
-    const tree = await arborist.loadActual();
-    const pkgfiles = await packlist(tree);
+    const arborist = new Arborist({ path: pkgDir })
+    const tree = await arborist.loadActual()
+    const pkgfiles = await packlist(tree)
 
-    const s = await getSizeOfPackageFile(pkgDir, pkgfiles);
-    p.size = s;
-    p.workspace = ws;
+    const s = await getSizeOfPackageFile(pkgDir, pkgfiles)
+    p.size = s
+    p.workspace = ws
 
     return {
       workspace: ws,
       package: p.name,
       version: p.version,
-      artifacts: s,
-    };
-  });
+      artifacts: s
+    }
+  })
 
-  const d = await Promise.all(parsedData);
-  return d;
-};
+  const d = await Promise.all(parsedData)
+  return d
+}
 
 const listPackages = async () => {
-  const listPackagesCMD = () => 'lerna ls --json';
-  const cmd = listPackagesCMD();
+  const listPackagesCMD = () => 'lerna ls --json'
+  const cmd = listPackagesCMD()
   try {
-    const { error, stdout, stderr } = await doExec(cmd);
-    const packData = await parsePackageList(JSON.parse(stdout));
+    const { error, stdout, stderr } = await doExec(cmd)
+    const packData = await parsePackageList(JSON.parse(stdout))
     const r = {
       hash: hash(packData),
-      packages: packData,
-    };
-    return r;
+      packages: packData
+    }
+    return r
   } catch (e) {
-    console.log('listPackages catch', e);
-    return { error: e };
+    console.log('listPackages catch', e)
+    return { error: e }
   }
-};
+}
 
-module.exports = { listPackages };
+module.exports = { listPackages }

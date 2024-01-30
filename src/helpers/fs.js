@@ -1,5 +1,5 @@
-const fs = require('fs');
-const jsonfile = require('jsonfile');
+const fs = require('fs')
+const jsonfile = require('jsonfile')
 
 const writeSizeFile = ({ location, content }) => {
   try {
@@ -8,23 +8,23 @@ const writeSizeFile = ({ location, content }) => {
       content,
       { spaces: 2 },
       {
-        flag: fs.existsSync(location) ? 'a' : undefined,
+        flag: fs.existsSync(location) ? 'a' : undefined
       }
-    );
+    )
   } catch (e) {
-    console.error('writeSizeFile failed', e);
+    console.error('writeSizeFile failed', e)
   }
-};
+}
 
 const readSizeFile = ({ location }) => {
   try {
-    return jsonfile.readFileSync(location);
+    return jsonfile.readFileSync(location)
   } catch (e) {
-    console.error('readSizeFile failed', e);
+    console.error('readSizeFile failed', e)
   }
-};
+}
 
 module.exports = {
   writeSizeFile,
-  readSizeFile,
-};
+  readSizeFile
+}

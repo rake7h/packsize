@@ -1,8 +1,8 @@
-const meow = require('meow');
-const { init } = require('./commands/init');
-const { diff } = require('./commands/diff');
+const meow = require('meow')
+const { init } = require('./commands/init')
+const { diff } = require('./commands/diff')
 
-let { input } = meow(
+const { input } = meow(
   `
 Usage
   $ packsize [command]
@@ -11,33 +11,31 @@ Commands
   diff         check the diff of original and updated size config
 `,
   {}
-);
+)
 
-let errors = {
-  commandNotFound: 'Command not found',
-};
+class CommandNotFoundError extends Error { }
 
-class CommandNotFoundError extends Error {}
+const projectRoot = process.env.PACKSIZE_PROJECT_ROOT || process.cwd();
 
 (async () => {
   if (input.length === 1) {
     switch (input[0]) {
       case 'init': {
-        await init(process.cwd());
-        return;
+        await init(projectRoot)
+        return
       }
       case 'diff': {
-        await diff(process.cwd());
-        return;
+        await diff(projectRoot)
+        return
       }
       default: {
-        throw new CommandNotFoundError();
+        throw new CommandNotFoundError()
       }
     }
   } else {
-    throw new CommandNotFoundError();
+    throw new CommandNotFoundError()
   }
 })().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+  console.error(err)
+  process.exit(1)
+})

@@ -1,3 +1,3 @@
 #!/usr/bin/env node
-'use strict';
-require('./src/cli');
+'use strict'
+require('./src/cli')
