@@ -39,6 +39,7 @@
     "fast-glob": "^3.3.2",
     "fs-extra": "^11.2.0",
     "gzip-size": "^6.0.0",
+    "json-diff": "^1.0.6",
     "jsonfile": "^6.1.0",
     "meow": "^9.0.0",
     "npm-packlist": "^7.0.4",

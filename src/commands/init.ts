@@ -1,9 +1,9 @@
-import { getSizeSnapsForProject } from '../helpers/packages';
-import { writeSizeFile } from '../helpers/fs';
+import { writeSizeSnapForProject } from '../helpers/packages';
 import { createRequire } from 'module'
 import {getProjectsFromConfig} from '../helpers/configs';
 
 const init = async (projectDir) => {
+  console.time('init-cli');
   const require = createRequire(import.meta.url)
   const WSPackage = require(`${projectDir}/package.json`);
 
@@ -30,7 +30,8 @@ const init = async (projectDir) => {
   const projects = getProjectsFromConfig(WS);
 
   /** get size configs for all workspace packages */
- getSizeSnapsForProject(projects);
+  await writeSizeSnapForProject(projects);
+  console.timeEnd('init-cli');
 };
 
 export { init };

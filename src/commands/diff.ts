@@ -1,37 +1,34 @@
 import fs from 'fs';
 import { detailedDiff as diffCheck } from 'deep-object-diff';
-import { getSizeSnapsForProject } from '../helpers/packages';
-import { readSizeFile } from '../helpers/fs';
+import { compareSnaps } from '../helpers/packages';
+import {getProjectsFromConfig} from '../helpers/configs';
 import { createRequire } from 'module'
 
 const diff = async (directory) => {
+  console.time('diff-cli');
   const require = createRequire(import.meta.url)
   const WSPackage = require(`${directory}/package.json`);
   global.WS = directory;
   global.WSPKG = WSPackage;
   global.CONFIG_FILE = 'packsize.config.json';
+  global.PACKAGE_SNAP_FILE = '.packsize.json';
 
-  if (!fs.existsSync(`${directory}/${CONFIG_FILE}`)) {
-    console.info('No packsize config present, run > packsize init');
-  }
+    /**
+   * 
+   * 0 react the packge list from packsize.config
+   * 
+   * 0. generate new size config and compare with present one
+   * 
+   * 1. show the diff
+   * 
+   */
+  /** get projects as per configs */
 
-  const originalConfig = await readSizeFile({
-    location: `${directory}/${CONFIG_FILE}`
-  });
+  const projects = getProjectsFromConfig(WS);
 
-  const updatedConfig = await getSizeSnapsForProject(directory);
-
-  const originalHash = originalConfig.hash;
-  const updatedHash = updatedConfig.hash;
-
-  if (originalHash === updatedHash) {
-    console.info('No changes!!');
-  } else {
-    console.log(
-      JSON.stringify(diffCheck(originalConfig, updatedConfig), null, 2)
-    );
-    console.error('Some Changes Found!!');
-  }
+  /** get size configs for all workspace packages */
+  await compareSnaps(projects);
+  console.timeEnd('diff-cli');
 };
 
 export { diff };

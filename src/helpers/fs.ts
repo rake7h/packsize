@@ -3,7 +3,6 @@ import fs from "fs-extra";
 import jsonfile from 'jsonfile';
 
 const writeSizeFile = ({ location, content }) => {
-  console.log('writeSizeFile', location, content)
   try {
     jsonfile.writeFileSync(
       location,
@@ -35,7 +34,20 @@ const removeFileOrDir = (location: string): void => {
   if (fs.existsSync(location)) return fs.removeSync(location);
 };
 
+const readJsonFile = ({
+  path,
+}: {
+  path:string;
+}) => {
+  const packageObj = fs.readJsonSync(path);
+  if (Object.keys(packageObj).length > 0) {
+    return packageObj;
+  }
+  throw new Error("json file not found or could be invalid for " + path);
+};
+
 export {
+  readJsonFile,
   writeSizeFile,
   readSizeFile,
   removeFileOrDir

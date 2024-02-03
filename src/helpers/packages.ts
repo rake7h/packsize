@@ -1,73 +1,100 @@
+import path from 'path';
 import { getSizeOfPackageFile } from './size';
 import packlist from 'npm-packlist';
 import Arborist from '@npmcli/arborist';
 import hash from 'object-hash';
-import { writeSizeFile , removeFileOrDir} from './fs';
+import { writeSizeFile, removeFileOrDir, readJsonFile } from './fs';
+import { diff } from 'json-diff';
 
-const generateSizeSnapForPacakge = async (pkgDir:string, opts = {}) => {
-  // add workspace name in package data
-    const pr = pkgDir.split(global.WS)[1].split('/');
-    pr[pr.length - 1] = undefined;
-    const ws = pr.join('');
+const generateSizeSnapForPackage = async (pkgDir, opts = {}) => {
+  // Extract the workspace name
+  const ws = path.basename(path.dirname(pkgDir));
 
-    //TODO: read the package.json properties
-    console.log(pkgDir, pr, ws);
-
-    /**
-     * get more details of package by using Arborist
-     */
+  try {
+    // Get more details of the package using Arborist
     const arborist = new Arborist({ path: pkgDir });
     const tree = await arborist.loadActual();
 
-    /**
-     * get list of all files that would be part of publish package. In other words,
-     * all files that go in the tar ball of a package when published.
-     */
+    // Get list of all files that would be part of the publish package
     const pkgfiles = await packlist(tree);
 
-    /**
-     * get size of each file
-     */
+    // Get size of each file
     const s = await getSizeOfPackageFile(pkgDir, pkgfiles);
 
-    /**
-     * return the sizes for each workspace
-     */
-
+    // Return the sizes for each workspace
     return {
       workspace: ws,
+      hash: hash(s),
       artifacts: s
     };
-};
-
-const getSizeSnapsForProject = async (projectDir:Array<string>) => {
-  try {
-    const promise = projectDir.map(async(p)=>{
-      // get size details
-      const sizeSnap = await generateSizeSnapForPacakge(p);
-      // write snap on package root
-      writeSizeFile({ location: p + '/' + PACKAGE_SNAP_FILE, content: sizeSnap });
-    })
-    await Promise.all(promise)
   } catch (e) {
-    console.error('getSizeSnapsForProject catch')
-    throw e
+    console.error(`Error generating size snapshot for package at ${pkgDir}:`, e);
+    throw e;
   }
 };
 
-const clearSizeSnapsForProject = async (projectDir:Array<string>) => {
+const getSizeSnapsForProject = async (projectDir, callback) => {
   try {
+    const promises = projectDir.map(async (p) => {
+      // Get size details
+      const sizeSnap = await generateSizeSnapForPackage(p);
+      callback({ location: p, snap: sizeSnap });
+    });
 
-    const promise = projectDir.map(async(p)=>{
-      // write snap on package root
-      removeFileOrDir(p + '/' + PACKAGE_SNAP_FILE)
-    })
-    await Promise.all(promise)
+    await Promise.all(promises);
   } catch (e) {
-    console.error('clearSizeSnapsForProject catch')
-    throw e
-   
+    console.error('getSizeSnapsForProject catch', e);
+    throw e;
   }
 };
 
-export { getSizeSnapsForProject, clearSizeSnapsForProject };
+const getPresentSnapOfProject = (projectDir) => {
+  try {
+    return readJsonFile({ path: path.join(projectDir, PACKAGE_SNAP_FILE) });
+  } catch (e) {
+    console.error('getPresentSnapOfProject catch', e);
+    throw e;
+  }
+};
+
+const writeSizeSnapForProject = (projectDir) => {
+  // Write snap on the package root
+  const snapWriter = ({ location, snap }) => {
+    writeSizeFile({ location: path.join(location, PACKAGE_SNAP_FILE), content: snap });
+  };
+
+  getSizeSnapsForProject(projectDir, snapWriter);
+};
+
+const compareSnaps = async (projectDir) => {
+  // For each package, compare present and updated snap
+  const promises = projectDir.map(async (p) => {
+    const presentSnap = getPresentSnapOfProject(p);
+    const updatedSnap = await generateSizeSnapForPackage(p);
+
+    if (presentSnap.hash === updatedSnap.hash) {
+      console.info('No changes!!');
+    } else {
+      console.error(`Some Changes Found!! for ${p}`);
+      console.log(JSON.stringify(diff(presentSnap, updatedSnap), null, 2));
+    }
+  });
+
+  await Promise.all(promises);
+};
+
+const clearSizeSnapsForProject = async (projectDir) => {
+  try {
+    const promises = projectDir.map(async (p) => {
+      // Write sizesnap at the package root
+      removeFileOrDir(path.join(p, PACKAGE_SNAP_FILE));
+    });
+
+    await Promise.all(promises);
+  } catch (e) {
+    console.error('clearSizeSnapsForProject catch', e);
+    throw e;
+  }
+};
+
+export { getSizeSnapsForProject, clearSizeSnapsForProject, writeSizeSnapForProject, compareSnaps };

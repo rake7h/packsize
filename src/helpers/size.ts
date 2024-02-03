@@ -45,23 +45,33 @@ const getSizeOfPackageFile = async (pkgDir, pkgfiles) => {
     files: {}
   };
 
-  await Promise.all(
-    pkgfiles.map(async (f) => {
+  const results = await Promise.all(
+    pkgfiles.map(async (f, index) => {
       const fpath = pkgDir + '/' + f;
       const s = await getFileSizes({ filePath: fpath });
       i.size += s.size;
-      i.gzip += s.sizeGzip;
+      // i.gzip += s.sizeGzip;
       i.files[f] = {
         size: byteSize(s.size).toString(),
-        gzip: byteSize(s.sizeGzip).toString()
+        // gzip: byteSize(s.sizeGzip).toString()
       }
+      return { index, result: i.files[f] };
     })
   );
+
+  // Sort the results based on the original index
+  results.sort((a, b) => a.index - b.index);
+
+  const sortedFiles = {};
+  results.forEach(({ result }, index) => {
+    sortedFiles[pkgfiles[index]] = result;
+  });
 
   return {
     ...i,
     size: byteSize(i.size).toString(),
-    gzip: byteSize(i.gzip).toString()
+    files: sortedFiles,
+    // gzip: byteSize(i.gzip).toString()
   };
 }
 
