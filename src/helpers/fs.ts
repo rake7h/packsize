@@ -1,7 +1,9 @@
-import fs from 'fs';
+import fs from "fs-extra";
+
 import jsonfile from 'jsonfile';
 
 const writeSizeFile = ({ location, content }) => {
+  console.log('writeSizeFile', location, content)
   try {
     jsonfile.writeFileSync(
       location,
@@ -24,7 +26,17 @@ const readSizeFile = ({ location }) => {
   }
 };
 
+const removeFileOrDir = (location: string): void => {
+  // clean
+  if (!location) {
+    console.log("dir arg is missing for cleanDir() call");
+  }
+
+  if (fs.existsSync(location)) return fs.removeSync(location);
+};
+
 export {
   writeSizeFile,
-  readSizeFile
+  readSizeFile,
+  removeFileOrDir
 };

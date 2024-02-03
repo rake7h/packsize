@@ -1,17 +1,16 @@
 import { getSizeOfPackageFile } from './size';
-import { doExec } from './exec';
 import packlist from 'npm-packlist';
 import Arborist from '@npmcli/arborist';
 import hash from 'object-hash';
+import { writeSizeFile , removeFileOrDir} from './fs';
 
-const parsePackageList = async (json, opts = {}) => {
+const generateSizeSnapForPacakge = async (pkgDir:string, opts = {}) => {
   // add workspace name in package data
-  const parsedData = json.map(async (p) => {
-    const pkgDir = p.location;
     const pr = pkgDir.split(global.WS)[1].split('/');
     pr[pr.length - 1] = undefined;
     const ws = pr.join('');
 
+    //TODO: read the package.json properties
     console.log(pkgDir, pr, ws);
 
     /**
@@ -34,37 +33,41 @@ const parsePackageList = async (json, opts = {}) => {
     /**
      * return the sizes for each workspace
      */
-    p.size = s;
-    p.workspace = ws;
 
     return {
       workspace: ws,
-      package: p.name,
-      version: p.version,
       artifacts: s
     };
-  });
-
-  const d = await Promise.all(parsedData);
-  return d;
 };
 
-const getSizeSnapsForProject = async () => {
-  // expecting project is in lerna
-  const listPackagesCMD = () => 'lerna ls --json';
-  const cmd = listPackagesCMD();
+const getSizeSnapsForProject = async (projectDir:Array<string>) => {
   try {
-    const { error, stdout, stderr } = await doExec(cmd);
-    const packData = await parsePackageList(JSON.parse(stdout));
-    const r = {
-      hash: hash(packData),
-      packages: packData
-    };
-    return r;
+    const promise = projectDir.map(async(p)=>{
+      // get size details
+      const sizeSnap = await generateSizeSnapForPacakge(p);
+      // write snap on package root
+      writeSizeFile({ location: p + '/' + PACKAGE_SNAP_FILE, content: sizeSnap });
+    })
+    await Promise.all(promise)
   } catch (e) {
-    console.log('listPackages catch', e);
-    return { error: e };
+    console.error('getSizeSnapsForProject catch')
+    throw e
   }
 };
 
-export { getSizeSnapsForProject };
+const clearSizeSnapsForProject = async (projectDir:Array<string>) => {
+  try {
+
+    const promise = projectDir.map(async(p)=>{
+      // write snap on package root
+      removeFileOrDir(p + '/' + PACKAGE_SNAP_FILE)
+    })
+    await Promise.all(promise)
+  } catch (e) {
+    console.error('clearSizeSnapsForProject catch')
+    throw e
+   
+  }
+};
+
+export { getSizeSnapsForProject, clearSizeSnapsForProject };

@@ -1,6 +1,7 @@
 import meow from 'meow';
 import { init } from './commands/init';
 import { diff } from './commands/diff';
+import { clean } from './commands/clean';
 
 class CommandNotFoundError extends Error {}
 
@@ -11,6 +12,7 @@ Usage
 Commands
   init         initialise a the packsize config
   diff         check the diff of original and updated size config
+  clean        remove all .packsize.json file from packages
 `,
   {}
 );
@@ -29,6 +31,10 @@ console.log('projectRoot', process.env.PACKSIZE_PROJECT_ROOT);
       }
       case 'diff': {
         await diff(projectRoot);
+        return;
+      }
+      case 'clean': {
+        await clean(projectRoot);
         return;
       }
       default: {
