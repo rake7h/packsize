@@ -35,9 +35,9 @@ const projectRoot = process.env.PACKSIZE_PROJECT_ROOT || process.cwd();
         return;
       }
       case 'clean': {
-        console.time('clean-cli');
+        console.time('Done in');
         await clean(projectRoot);
-        console.timeEnd('clean-cli');
+        console.timeEnd('Done in');
         return;
       }
       default: {

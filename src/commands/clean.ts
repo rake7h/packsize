@@ -1,5 +1,6 @@
 import { clearSizeSnapsForProject } from '../helpers/packages';
 import {getProjectsFromConfig} from '../helpers/configs';
+import {readJsonFile} from '../helpers/fs';
 
 const clean = async (projectDir) => {
   const WSPackage = readJsonFile({path:`${projectDir}/package.json`});
