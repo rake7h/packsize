@@ -4,8 +4,9 @@
   "description": "package size control on a monorepo",
   "scripts": {
     "dev": "node -r esbuild-register ./__tests__/dev.ts",
-    "lint": "eslint . --fix",
-    "build": "esbuild ./src/cli --outfile=./dist/packsize.js --bundle --platform=node --packages=external --target=es6"
+    "lint": "eslint --quiet",
+    "build": "esbuild ./src/cli --outfile=./dist/packsize.js --bundle --platform=node --packages=external --target=es6",
+    "verify": "yarn run lint && yarn run build"
   },
   "bin": "dist/packsize.js",
   "engines": {
