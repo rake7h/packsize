@@ -5,11 +5,12 @@ import Arborist from '@npmcli/arborist';
 import hash from 'object-hash';
 import { writeSizeFile, removeFileOrDir, readJsonFile } from './fs';
 import { diff } from 'json-diff';
+import {success} from './logger';
+import {parsePackagePath} from './globs';
+import chalk from "chalk";
 
 const generateSizeSnapForPackage = async (pkgDir, opts = {}) => {
-  // Extract the workspace name
-  const ws = path.basename(path.dirname(pkgDir));
-
+  const {packageName, workspaceName} = parsePackagePath(pkgDir)
   try {
     // Get more details of the package using Arborist
     const arborist = new Arborist({ path: pkgDir });
@@ -23,7 +24,7 @@ const generateSizeSnapForPackage = async (pkgDir, opts = {}) => {
 
     // Return the sizes for each workspace
     return {
-      workspace: ws,
+      package: workspaceName+'/'+packageName,
       hash: hash(s),
       artifacts: s
     };
@@ -73,13 +74,12 @@ const compareSnaps = async (projectDir) => {
     const updatedSnap = await generateSizeSnapForPackage(p);
 
     if (presentSnap.hash === updatedSnap.hash) {
-      console.info('No changes!!');
+      console.log(chalk.green('✅ Packsize'), chalk.blue.bold((updatedSnap.package)));
     } else {
-      console.error(`Some Changes Found!! for ${p}`);
+      console.log(chalk.red('❌ Packsize'), chalk.blue.bgRed.bold((updatedSnap.package)));
       console.log(JSON.stringify(diff(presentSnap, updatedSnap), null, 2));
     }
   });
-
   await Promise.all(promises);
 };
 

@@ -23,15 +23,15 @@ const projectRoot = process.env.PACKSIZE_PROJECT_ROOT || process.cwd();
   if (input.length === 1) {
     switch (input[0]) {
       case 'init': {
-        console.time('init-cli');
+        console.time('Done in');
         await init(projectRoot);
-        console.timeEnd('init-cli');
+        console.timeEnd('Done in');
         return;
       }
       case 'diff': {
-        console.time('diff-cli');
+        console.time('Done in');
         await diff(projectRoot);
-        console.timeEnd('diff-cli');
+        console.timeEnd('Done in');
         return;
       }
       case 'clean': {
