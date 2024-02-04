@@ -1,10 +1,8 @@
 import { clearSizeSnapsForProject } from '../helpers/packages';
-import { createRequire } from 'module'
 import {getProjectsFromConfig} from '../helpers/configs';
 
 const clean = async (projectDir) => {
-  const require = createRequire(import.meta.url)
-  const WSPackage = require(`${projectDir}/package.json`);
+  const WSPackage = readJsonFile({path:`${projectDir}/package.json`});
 
   global.WS = projectDir;
   global.WSPKG = WSPackage;

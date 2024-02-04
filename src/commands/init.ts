@@ -1,15 +1,13 @@
 import { writeSizeSnapForProject } from '../helpers/packages';
-import { createRequire } from 'module'
 import {getProjectsFromConfig} from '../helpers/configs';
+import {readJsonFile} from '../helpers/fs';
 
 const init = async (projectDir) => {
-  console.time('init-cli');
-  const require = createRequire(import.meta.url)
-  const WSPackage = require(`${projectDir}/package.json`);
+  const WSPackage = readJsonFile({path:`${projectDir}/package.json`});
 
   global.WS = projectDir;
   global.WSPKG = WSPackage;
-  global.CONFIG_FILE = 'packsize.snap.json';
+  global.CONFIG_FILE = 'packsize.config.json';
   global.PACKAGE_SNAP_FILE = '.packsize.json';
 
   /**
@@ -31,7 +29,6 @@ const init = async (projectDir) => {
 
   /** get size configs for all workspace packages */
   await writeSizeSnapForProject(projects);
-  console.timeEnd('init-cli');
 };
 
 export { init };

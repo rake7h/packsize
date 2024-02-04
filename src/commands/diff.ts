@@ -1,14 +1,10 @@
-import fs from 'fs';
-import { detailedDiff as diffCheck } from 'deep-object-diff';
 import { compareSnaps } from '../helpers/packages';
 import {getProjectsFromConfig} from '../helpers/configs';
-import { createRequire } from 'module'
+import {readJsonFile} from '../helpers/fs';
 
-const diff = async (directory) => {
-  console.time('diff-cli');
-  const require = createRequire(import.meta.url)
-  const WSPackage = require(`${directory}/package.json`);
-  global.WS = directory;
+const diff = async (projectDir) => {
+  const WSPackage = readJsonFile({path:`${projectDir}/package.json`});
+  global.WS = projectDir;
   global.WSPKG = WSPackage;
   global.CONFIG_FILE = 'packsize.config.json';
   global.PACKAGE_SNAP_FILE = '.packsize.json';
@@ -28,7 +24,6 @@ const diff = async (directory) => {
 
   /** get size configs for all workspace packages */
   await compareSnaps(projects);
-  console.timeEnd('diff-cli');
 };
 
 export { diff };

@@ -1,13 +1,13 @@
 {
   "name": "packsize",
-  "version": "0.2.0",
+  "version": "0.0.0-test1",
   "description": "package size control on a monorepo",
   "scripts": {
     "dev": "node -r esbuild-register ./__tests__/dev.ts",
     "lint": "eslint . --fix",
     "build": "esbuild ./src/cli --outfile=./dist/packsize.js --bundle --platform=node --packages=external --target=es6"
   },
-  "bin": "./bin.js",
+  "bin": "dist/packsize.js",
   "engines": {
     "node": "^20"
   },

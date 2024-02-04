@@ -19,22 +19,25 @@ Commands
 
 const projectRoot = process.env.PACKSIZE_PROJECT_ROOT || process.cwd();
 
-console.log('projectRoot', process.env.PACKSIZE_PROJECT_ROOT);
-
-
 (async () => {
   if (input.length === 1) {
     switch (input[0]) {
       case 'init': {
+        console.time('init-cli');
         await init(projectRoot);
+        console.timeEnd('init-cli');
         return;
       }
       case 'diff': {
+        console.time('diff-cli');
         await diff(projectRoot);
+        console.timeEnd('diff-cli');
         return;
       }
       case 'clean': {
+        console.time('clean-cli');
         await clean(projectRoot);
+        console.timeEnd('clean-cli');
         return;
       }
       default: {
