@@ -12,4 +12,4 @@ else
 fi
 
 # Publish the package with the appropriate dist-tag
-npm publish --access public --provenance --tag "$DIST_TAG"
+npm publish --tag "$DIST_TAG"
