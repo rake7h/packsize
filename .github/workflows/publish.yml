@@ -1,24 +1,22 @@
-name: NPM Publish
-
+name: Publish Package to npmjs
 on:
   release:
    types: [published]
-
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Verify & Build
-        run: yarn verify
-
-      - name: Publish
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - run: yarn verify
+      - run: npm publish --access public --provenance
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: ./scripts/publish.sh
-
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
