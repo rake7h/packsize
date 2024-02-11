@@ -32,8 +32,8 @@ Create a `packsize.config.json` file at the root of your project:
 ### CLI
 
 Add the following commands to the `scripts` section of your root `package.json`:
-```json 
-scripts: { 
+```json
+"scripts": { 
  "packsize:init": "packsize init", 
  "packsize:diff": "packsize diff", 
  "packsize:clean": "packsize clean" 
