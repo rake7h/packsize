@@ -40,6 +40,37 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@bontiva/packsize@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@bontiva/packsize@workspace:."
+  dependencies:
+    "@npmcli/arborist": "npm:^5.6.0"
+    "@types/node": "npm:^20.11.10"
+    byte-size: "npm:^8.1.0"
+    chalk: "npm:^5.3.0"
+    cosmiconfig: "npm:^9.0.0"
+    dotenv: "npm:^16.0.3"
+    esbuild: "npm:^0.20.0"
+    esbuild-register: "npm:^3.5.0"
+    eslint: "npm:^8.0.1"
+    eslint-config-standard: "npm:^17.1.0"
+    eslint-plugin-import: "npm:^2.25.2"
+    eslint-plugin-n: "npm:^15.0.0 || ^16.0.0 "
+    eslint-plugin-promise: "npm:^6.0.0"
+    fast-glob: "npm:^3.3.2"
+    fs-extra: "npm:^11.2.0"
+    gzip-size: "npm:^6.0.0"
+    jsondiffpatch: "npm:^0.6.0"
+    meow: "npm:^9.0.0"
+    npm-packlist: "npm:^7.0.4"
+    object-hash: "npm:^3.0.0"
+    type-fest: "npm:^4.10.2"
+    typescript: "npm:^5.3.3"
+  bin:
+    packsize: dist/packsize.js
+  languageName: unknown
+  linkType: soft
+
 "@esbuild/aix-ppc64@npm:0.20.0":
   version: 0.20.0
   resolution: "@esbuild/aix-ppc64@npm:0.20.0"
@@ -3130,37 +3161,6 @@ __metadata:
   checksum: 10/f8a8e9a7693659383f06aec604ad5ead237c7a261c18048a6e1b5b85a5f8a067e469aa24f5bc009b991ea3b058a87f5065ef4176793a200d4917349881216cae
   languageName: node
   linkType: hard
-
-"packsize@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "packsize@workspace:."
-  dependencies:
-    "@npmcli/arborist": "npm:^5.6.0"
-    "@types/node": "npm:^20.11.10"
-    byte-size: "npm:^8.1.0"
-    chalk: "npm:^5.3.0"
-    cosmiconfig: "npm:^9.0.0"
-    dotenv: "npm:^16.0.3"
-    esbuild: "npm:^0.20.0"
-    esbuild-register: "npm:^3.5.0"
-    eslint: "npm:^8.0.1"
-    eslint-config-standard: "npm:^17.1.0"
-    eslint-plugin-import: "npm:^2.25.2"
-    eslint-plugin-n: "npm:^15.0.0 || ^16.0.0 "
-    eslint-plugin-promise: "npm:^6.0.0"
-    fast-glob: "npm:^3.3.2"
-    fs-extra: "npm:^11.2.0"
-    gzip-size: "npm:^6.0.0"
-    jsondiffpatch: "npm:^0.6.0"
-    meow: "npm:^9.0.0"
-    npm-packlist: "npm:^7.0.4"
-    object-hash: "npm:^3.0.0"
-    type-fest: "npm:^4.10.2"
-    typescript: "npm:^5.3.3"
-  bin:
-    packsize: dist/packsize.js
-  languageName: unknown
-  linkType: soft
 
 "pacote@npm:^13.0.3, pacote@npm:^13.6.1":
   version: 13.6.2
