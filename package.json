@@ -9,6 +9,7 @@
     "verify": "yarn run lint && yarn run build"
   },
   "bin": "dist/packsize.js",
+  "type": "module",
   "engines": {
     "node": "^18"
   },
