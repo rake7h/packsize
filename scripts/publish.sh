@@ -2,8 +2,7 @@
 set -e -x
 
 # Get the current branch name
-CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-
+CURRENT_BRANCH="${GITHUB_REF#refs/heads/}"
 echo $CURRENT_BRANCH
 
 # Set the npm dist-tag based on the branch name
