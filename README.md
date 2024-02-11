@@ -19,7 +19,19 @@ yarn add packsize-cli
 
 Create a `packsize.config.json` file at the root of your project:
 
+```json
+{
+ "packages":  [
+      "packages/*",  
+	  "helpers/*",  
+	  "other workspaces",  
+      "..."  
+   ]  
+}
+```
+### CLI
 
+Add the following commands to the `scripts` section of your root `package.json`:
 ```json 
 scripts: { 
  "packsize:init": "packsize init", 
@@ -30,7 +42,7 @@ scripts: {
 
 
 
-|command | work | 
+|Command | Description | 
 |--|--| 
 | init |Generates the packsize stats snap file for all packages specified in `packsize.config.json`. | 
 | diff | Compares the current snapshot with the previous one to identify size differences. |
