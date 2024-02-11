@@ -1,4 +1,0 @@
-- config file at root to get the ws and package names that need to be enable for size check 
-- write size snapshot at root for all pakkage mensioned in config.
-- on packsize check it should generate a temporary snapshot and compare it with existing snaps and dispay diffs
-- 
