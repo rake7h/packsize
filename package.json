@@ -9,7 +9,7 @@
     "node": "^18"
   },
   "scripts": {
-    "dev": "node -r esbuild-register ./__tests__/dev.ts",
+    "dev": "node --loader esbuild-register/loader -r esbuild-register ./__tests__/dev.ts",
     "lint": "eslint --quiet",
     "build": "esbuild ./src/cli --outfile=./dist/packsize.js --bundle --platform=neutral --packages=external",
     "verify": "yarn run lint && yarn run build"

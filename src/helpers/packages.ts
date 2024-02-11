@@ -62,6 +62,7 @@ const writeSizeSnapForProject = (projectDir) => {
   // Write snap on the package root
   const snapWriter = ({ location, snap }) => {
     writeSizeFile({ location: path.join(location, PACKAGE_SNAP_FILE), content: snap });
+    console.log(chalk.blue('🔌 Packsize intialized for'), chalk.green.bold((snap.package)));
   };
 
   getSizeSnapsForProject(projectDir, snapWriter);
@@ -74,7 +75,7 @@ const compareSnaps = async (projectDir) => {
     const updatedSnap = await generateSizeSnapForPackage(p);
 
     if (presentSnap.hash === updatedSnap.hash) {
-      console.log(chalk.green('✅ Packsize'), chalk.blue.bold((updatedSnap.package)));
+      console.log(chalk.blue('✅ Packsize'), chalk.green.bold((updatedSnap.package)));
     } else {
       console.log(chalk.red('❌ Packsize'), chalk.blue.bgRed.bold((updatedSnap.package)));
       console.log(JSON.stringify(jsondiffpatch.diff(presentSnap, updatedSnap), null, 2));

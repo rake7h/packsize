@@ -10,7 +10,7 @@ const readConfig = (ws: string): PacksizeConfig | undefined => {
     });
 
     try {
-        const result = explorer.load(configPaths[0] + "/packsize.config.json");
+        const result = explorer.load(configPaths[0] + "/" + CONFIG_FILE);
         return result?.config;
     } catch (e) {
         console.log("err", e);

@@ -1,6 +1,4 @@
 /** for local testing purpose only */
-require('dotenv').config()
+import 'dotenv/config'
 
-require('../src/cli')
-
-// require('../dist/packsize.js')
+import '../src/cli'
