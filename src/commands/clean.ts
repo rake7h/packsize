@@ -7,12 +7,12 @@ const clean = async (projectDir) => {
 
   global.WS = projectDir;
   global.WSPKG = WSPackage;
-  global.CONFIG_FILE = 'packsize.snap.json';
+  global.CONFIG_FILE = 'packsize.config.json';
   global.PACKAGE_SNAP_FILE = '.packsize.json';
 
   /**
    * 
-   * 0 react the packge list from packsize.config
+   * 0 react the package list from packsize.config
    * 
    * 0. config init for first time setup 
    * 
