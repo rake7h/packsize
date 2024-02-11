@@ -4,7 +4,7 @@ import packlist from 'npm-packlist';
 import Arborist from '@npmcli/arborist';
 import hash from 'object-hash';
 import { writeSizeFile, removeFileOrDir, readJsonFile } from './fs';
-import { diff } from 'json-diff';
+import * as jsondiffpatch from 'jsondiffpatch';
 import {success} from './logger';
 import {parsePackagePath} from './globs';
 import chalk from "chalk";
@@ -77,7 +77,7 @@ const compareSnaps = async (projectDir) => {
       console.log(chalk.green('✅ Packsize'), chalk.blue.bold((updatedSnap.package)));
     } else {
       console.log(chalk.red('❌ Packsize'), chalk.blue.bgRed.bold((updatedSnap.package)));
-      console.log(JSON.stringify(diff(presentSnap, updatedSnap), null, 2));
+      console.log(JSON.stringify(jsondiffpatch.diff(presentSnap, updatedSnap), null, 2));
     }
   });
   await Promise.all(promises);

@@ -1,16 +1,11 @@
 import fs from "fs-extra";
 
-import jsonfile from 'jsonfile';
-
 const writeSizeFile = ({ location, content }) => {
   try {
-    jsonfile.writeFileSync(
+    fs.outputJsonSync(
       location,
       content,
-      { spaces: 2 },
-      {
-        flag: fs.existsSync(location) ? 'a' : undefined
-      }
+      { spaces: 2 }
     );
   } catch (e) {
     console.error('writeSizeFile failed', e);
@@ -19,7 +14,7 @@ const writeSizeFile = ({ location, content }) => {
 
 const readSizeFile = ({ location }) => {
   try {
-    return jsonfile.readFileSync(location);
+    return fs.readJsonSync(location);
   } catch (e) {
     console.error('readSizeFile failed', e);
   }
