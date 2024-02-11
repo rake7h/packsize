@@ -20,16 +20,16 @@ const readConfig = (ws: string): PacksizeConfig | undefined => {
 const getProjectsFromConfig = (WS) => {
     const configs = readConfig(WS);
 
-    if (!configs?.packages) {
+    if (!configs?.workspaces) {
         throw Error("NO packages found in packsize config file for size checks!");
     }
 
-    const packages = getPackageDirGlob({
+    const workspaces = getPackageDirGlob({
         projectRoot: WS,
-        packagesGlob: configs.packages,
+        packagesGlob: configs.workspaces,
     });
 
-    return packages
+    return workspaces
 
 }
 
