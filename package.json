@@ -14,7 +14,7 @@
     "node": "^18"
   },
   "files": [
-    "src",
+    "dist",
     "bin.js"
   ],
   "repository": {
