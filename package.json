@@ -3,10 +3,15 @@
   "version": "0.2.0",
   "description": "package size control on a monorepo",
   "scripts": {
-    "dev": "node ./src/_dev.js"
+    "dev": "node -r esbuild-register ./__tests__/dev.ts",
+    "lint": "eslint --quiet",
+    "build": "esbuild ./src/cli --outfile=./dist/packsize.js --bundle --platform=node --packages=external --target=es6",
+    "verify": "yarn run lint && yarn run build"
   },
-  "bin": {
-    "packsize": "./bin.js"
+  "bin": "dist/packsize.js",
+  "type": "module",
+  "engines": {
+    "node": "^18"
   },
   "files": [
     "src",
@@ -25,14 +30,28 @@
   "dependencies": {
     "@npmcli/arborist": "^5.6.0",
     "byte-size": "^8.1.0",
-    "colors": "^1.4.0",
-    "deep-object-diff": "^1.1.9",
-    "diff": "^5.1.0",
-    "dotenv": "^16.0.3",
+    "chalk": "^5.3.0",
+    "cosmiconfig": "^9.0.0",
+    "fs-extra": "^11.2.0",
     "gzip-size": "^6.0.0",
-    "jsonfile": "^6.1.0",
+    "jsondiffpatch": "^0.6.0",
     "meow": "^9.0.0",
     "npm-packlist": "^7.0.4",
     "object-hash": "^3.0.0"
-  }
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.10",
+    "dotenv": "^16.0.3",
+    "esbuild": "^0.20.0",
+    "esbuild-register": "^3.5.0",
+    "eslint": "^8.0.1",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-promise": "^6.0.0",
+    "fast-glob": "^3.3.2",
+    "type-fest": "^4.10.2",
+    "typescript": "^5.3.3"
+  },
+  "packageManager": "yarn@4.1.0"
 }

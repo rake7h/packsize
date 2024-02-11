@@ -1,3 +1,12 @@
+# Not using yarn zero install
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
 # Logs
 logs
 *.log
@@ -103,3 +112,4 @@ dist
 
 # TernJS port file
 .tern-port
+package.tgz
