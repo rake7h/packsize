@@ -1,5 +1,5 @@
 {
-  "name": "@bontiva/packsize",
+  "name": "packsize-cli",
   "version": "0.0.0-alpha.1",
   "description": "package size control on a monorepo",
   "scripts": {
