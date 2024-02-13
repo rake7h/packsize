@@ -15,7 +15,7 @@
     "verify": "yarn run lint && yarn run build"
   },
   "bin": {
-    "packsize": "./bin.js"
+    "packsize": "bin.js"
   },
   "files": [
     "dist",
