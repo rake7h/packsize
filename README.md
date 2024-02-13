@@ -21,10 +21,10 @@ Create a `packsize.config.json` file at the root of your project:
 
 ```json
 {
- "packages":  [
+ "workspaces":  [
       "packages/*",  
-	  "helpers/*",  
-	  "other workspaces",  
+      "helpers/*",  
+      "other workspaces",  
       "..."  
    ]  
 }
